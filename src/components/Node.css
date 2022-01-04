@@ -1,0 +1,28 @@
+.node {
+  width: 20px;
+  min-width: 15px;
+
+  height: 20px;
+  border: 1px solid lightgrey;
+}
+
+.move-start:hover {
+  background-color: green;
+}
+
+.move-end:hover {
+  background-color: red;
+}
+
+
+.start {
+  background-color: green;
+}
+
+.end {
+  background-color: red;
+}
+
+.wall {
+  background-color: black;
+}
