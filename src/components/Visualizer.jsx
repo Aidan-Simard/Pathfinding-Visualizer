@@ -4,6 +4,7 @@ import Node from './Node'
 import dijkstras from '../algorithms/dijkstras';
 
 import './Visualizer.css'
+import { clear } from '@testing-library/user-event/dist/clear';
 
 const NUM_ROWS = 25;
 const NUM_COLS = 50;
@@ -59,6 +60,7 @@ const Visualizer = (props) => {
 
       isStartNode: false,
       isEndNode: false,
+      weight: 1,
       
       toString: toString,
       getNodeNeighbors:   
@@ -108,10 +110,6 @@ const Visualizer = (props) => {
    * Animate Dijkstra's algorithm.
    */
   function animateDijkstras() {
-    setStartVis(true);
-    if (startVis) {
-      clearGrid();
-    }
     const [journey, path] = dijkstras(grid, grid[startCoords[0]][startCoords[1]]);
     animatePath(journey, path);
   }
@@ -123,36 +121,62 @@ const Visualizer = (props) => {
    */
   function animatePath(journey, path) {
 
+    setStartVis(true);
+
+    if (startVis) {
+      clearGrid();
+    }
+
+    let start = document.getElementById(startCoords[0]+"-"+startCoords[1]);
+    let end = document.getElementById(endCoords[0]+"-"+endCoords[1]);
+
+    start.classList.add("visited");
+
     for (let i = 0; i < journey.length; i++) {
       setTimeout(() => {
         let row = journey[i]["row"];
         let col = journey[i]["col"];
-        document.getElementById(row+"-"+col).className += " visited"
+        document.getElementById(row+"-"+col).classList.add("visited");
       }, 10 * i);
     }
     setTimeout(() => {
+
+      end.classList.remove("visited");
+      end.classList.add("path");
+      end.classList.add("switch");
+
       for (let i = 0; i < path.length; i++) {
         setTimeout(() => {
           let row = path[i]["row"];
           let col = path[i]["col"];
-          document.getElementById(row+"-"+col).classList.remove("visited")
-          document.getElementById(row+"-"+col).className += " path";
+          let node = document.getElementById(row+"-"+col);
+          node.classList.remove("visited")
+          node.classList.add("path");
         }
         , 50 * i);
       }
+
+      setTimeout(() => {
+        start.classList.add("path");
+        start.classList.add("switch");
+        setStartVis(false);
+      }, 50 * path.length)
+      
     }, 10 * journey.length);
 
   }
 
   return (
     <div>
+      <button onClick={() => reset()}>Reset</button>
+      <button onClick={() => randomWeight()}>Random Weight</button>
       <button onClick={() => animateDijkstras()}>Visualize!</button>
       <div className="visualizer">
         {grid.map((row, rowIndex) => {
           return (
             <div className="row" key={rowIndex}>
               {row.map((node, nodeIndex) => {
-                const {row, col, isWall, isStartNode, isEndNode, isVisited } = node;
+                const {row, col, weight, isWall, isStartNode, isEndNode, isVisited } = node;
                 return (
                   <Node 
                     row={row}
@@ -161,6 +185,7 @@ const Visualizer = (props) => {
                     isStartNode={isStartNode}
                     isEndNode={isEndNode}
                     isVisited={isVisited}
+                    weight={weight}
                     key={rowIndex.toString() + "-" + nodeIndex.toString()}
                     onMouseDown={() => handleMouseDown(row, col)}
                     onMouseEnter={(row, col) => handleMouseEnter(row, col)}
@@ -177,15 +202,21 @@ const Visualizer = (props) => {
   )
 
   function handleMouseDown(row, col) {
+    if (startVis) { return; }
+
     toggleWall(row, col);
     setMouseDown(true);
   }
 
   function handleMouseUp() {
+    if (startVis) { return; }
+
     setMouseDown(false);
   }
 
   function handleMouseEnter(row, col) {
+    if (startVis) { return; }
+    
     let node = grid[row][col];
 
     if (mouseDown) {
@@ -200,17 +231,23 @@ const Visualizer = (props) => {
   }
 
   function handleMouseClick(row, col) {
+    if (startVis) { return; }
+
     toggleWall(row, col);
     toggleWall(row, col);
   }
 
   function toggleWall(row, col) {
+    if (startVis) { return; }
+
     let g = [...[...grid]];
     g[row][col]["isWall"] = !g[row][col]["isWall"];
     setGrid(g);
   }
 
   function moveStartNode(row, col) {
+    if (startVis) { return; }
+
     let g = [...[...grid]];
     g[startCoords[0]][startCoords[1]]["isStartNode"] = false;
     g[row][col]["isStartNode"] = true;
@@ -219,6 +256,8 @@ const Visualizer = (props) => {
   }
 
   function moveEndNode(row, col) {
+    if (startVis) { return; }
+
     let g = [...[...grid]];
     g[endCoords[0]][endCoords[1]]["isEndNode"] = false;
     g[row][col]["isEndNode"] = true;
@@ -227,6 +266,11 @@ const Visualizer = (props) => {
   }
 
   function clearGrid() {
+    if (startVis) { return; }
+
+    document.getElementById(startCoords[0]+"-"+startCoords[1]).classList.remove("switch");
+    document.getElementById(endCoords[0]+"-"+endCoords[1]).classList.remove("switch");
+
     for (let row = 0; row < grid.length; row++) {
       for (let col = 0; col < grid[row].length; col++) {
         let node = document.getElementById(row+"-"+col)
@@ -240,6 +284,29 @@ const Visualizer = (props) => {
         }
       }
     }
+  }
+
+  function randomWeight() {
+    if (startVis) { return; }
+
+    let g = [...[...grid]];
+
+    for (let row = 0; row < grid.length; row++) {
+      for (let col = 0; col < grid[row].length; col++) {
+        if (Math.random() < 0.3) {
+          g[row][col]["weight"] = 4;
+        }
+      }
+    }
+
+    setGrid(g)
+  }
+
+  function reset() {
+    if (startVis) { return; }
+
+    clearGrid();
+    setGrid(initGrid());
   }
 }
 
