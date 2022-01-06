@@ -1,12 +1,9 @@
 import React, { useState, useEffect} from 'react'
 
-import ReactHoverObserver from 'react-hover-observer';
-
 import Node from './Node'
 import dijkstras from '../algorithms/dijkstras';
 
 import './Visualizer.css'
-import { selectOptions } from '@testing-library/user-event/dist/select-options';
 
 const NUM_ROWS = 25;
 const NUM_COLS = 50;

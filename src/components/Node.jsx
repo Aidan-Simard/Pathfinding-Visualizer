@@ -4,8 +4,6 @@ import './Node.css'
 
 const Node = (props) => {
 
-  const nodeRef = useRef();
-
   const classes= [
       "node",
       props.isStartNode ? "start" 
