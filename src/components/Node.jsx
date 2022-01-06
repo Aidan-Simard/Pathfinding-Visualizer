@@ -29,7 +29,7 @@ const Node = (props) => {
     >
       { props.isStartNode ? <i className="fas fa-angle-right va" style={{verticalAlign: "50%"}}></i> 
       : props.isEndNode? <i className="fas fa-check va" style={{verticalAlign: "5%"}}></i>
-      : props.weight > 1 ? <i className="fas fa-weight-hanging" style={{color: "#007f83"}}></i>
+      : props.weight > 1 ? <i className="fas fa-weight-hanging" style={{color: "#084b4c"}}></i>
       : <div/>}
     </div>
   )

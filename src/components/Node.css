@@ -9,17 +9,17 @@
 }
 
 .start {
-  color: #CDEDF6;
+  color: #042A2B;
   font-size: 25px;
 }
 
 .end {
-  color: #CDEDF6;
+  color: #042A2B;
   font-size: 20px;
 }
 
 .wall {
-  animation: wall 1s;
+  animation: wall 0.5s;
   background-color: #EF7B45;
 }
 
@@ -30,24 +30,20 @@
 
 .path {
   animation: path 1s;
-  background-color: #CDEDF6;
-}
-
-.switch {
-  color: #042A2B;
+  background-color: #f4cccc;
 }
 
 @keyframes visited {
-  0% { background-color: #042A2B;}
+  0% { background-color: #3f7983;}
   100% { background-color: #5EB1BF; }
 }
 
 @keyframes path {
   0% { background-color: #0094C6; }
-  100% { background-color: #CDEDF6; }
+  100% { background-color: #f4cccc; }
 }
 
 @keyframes wall {
-  0% { background-color: #042A2B;}
+  0% { background-color: #FFFFFF;}
   100% { background-color: #EF7B45; }
 }

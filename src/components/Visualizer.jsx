@@ -122,10 +122,7 @@ const Visualizer = (props) => {
   function animatePath(journey, path) {
 
     setStartVis(true);
-
-    if (startVis) {
-      clearGrid();
-    }
+    clearGrid();
 
     let start = document.getElementById(startCoords[0]+"-"+startCoords[1]);
     let end = document.getElementById(endCoords[0]+"-"+endCoords[1]);
@@ -143,7 +140,6 @@ const Visualizer = (props) => {
 
       end.classList.remove("visited");
       end.classList.add("path");
-      end.classList.add("switch");
 
       for (let i = 0; i < path.length; i++) {
         setTimeout(() => {
@@ -158,7 +154,6 @@ const Visualizer = (props) => {
 
       setTimeout(() => {
         start.classList.add("path");
-        start.classList.add("switch");
         setStartVis(false);
       }, 50 * path.length)
       
@@ -268,9 +263,6 @@ const Visualizer = (props) => {
   function clearGrid() {
     if (startVis) { return; }
 
-    document.getElementById(startCoords[0]+"-"+startCoords[1]).classList.remove("switch");
-    document.getElementById(endCoords[0]+"-"+endCoords[1]).classList.remove("switch");
-
     for (let row = 0; row < grid.length; row++) {
       for (let col = 0; col < grid[row].length; col++) {
         let node = document.getElementById(row+"-"+col)
@@ -293,7 +285,7 @@ const Visualizer = (props) => {
 
     for (let row = 0; row < grid.length; row++) {
       for (let col = 0; col < grid[row].length; col++) {
-        if (Math.random() < 0.3) {
+        if (Math.random() < 0.3 && !g[row][col]["isWall"]) {
           g[row][col]["weight"] = 4;
         }
       }
