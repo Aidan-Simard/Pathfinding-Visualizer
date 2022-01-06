@@ -43,8 +43,9 @@
     neighbors = node.getNodeNeighbors(graph, [node["row"], node["col"]]);
 
     for (let i = 0; i < neighbors.length; i++) {
-      len = dist[node["toString"]] + 1;
       neighbor = neighbors[i];
+
+      len = dist[node["toString"]] + neighbor["weight"];
 
       // end search
       if (neighbor["isEndNode"]) {
