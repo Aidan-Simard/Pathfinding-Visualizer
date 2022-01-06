@@ -12,10 +12,9 @@ const Visualizer = (props) => {
 
   const [startCoords, setStartCoords] = useState([Math.floor(NUM_ROWS/2), 9]);
   const [endCoords, setEndCoords] = useState([Math.floor(NUM_ROWS/2), 40]);
-
   const [grid, setGrid] = useState(initGrid());
-
   const [mouseDown, setMouseDown] = useState(false);
+  const [startVis, setStartVis] = useState(false);
 
   useEffect(() => {
     updateGrid();
@@ -85,7 +84,7 @@ const Visualizer = (props) => {
           n.push(graph[row][col-1])
         }
         
-        n = n.filter((node) => !node["isWall"] && !node["isVisited"] && !node["isStartNode"]);
+        n = n.filter((node) => !node["isWall"] && !node["isStartNode"]);
     
         return n
       }
@@ -105,11 +104,23 @@ const Visualizer = (props) => {
     setGrid(g);
   }
 
+  /**
+   * Animate Dijkstra's algorithm.
+   */
   function animateDijkstras() {
+    setStartVis(true);
+    if (startVis) {
+      clearGrid();
+    }
     const [journey, path] = dijkstras(grid, grid[startCoords[0]][startCoords[1]]);
     animatePath(journey, path);
   }
 
+  /**
+   * Animate a journey (visited nodes) and path.
+   * @param {Object[]} journey 
+   * @param {Object[]} path 
+   */
   function animatePath(journey, path) {
 
     for (let i = 0; i < journey.length; i++) {
@@ -124,6 +135,7 @@ const Visualizer = (props) => {
         setTimeout(() => {
           let row = path[i]["row"];
           let col = path[i]["col"];
+          document.getElementById(row+"-"+col).classList.remove("visited")
           document.getElementById(row+"-"+col).className += " path";
         }
         , 50 * i);
@@ -212,6 +224,22 @@ const Visualizer = (props) => {
     g[row][col]["isEndNode"] = true;
     setEndCoords([row, col])
     setGrid(g);
+  }
+
+  function clearGrid() {
+    for (let row = 0; row < grid.length; row++) {
+      for (let col = 0; col < grid[row].length; col++) {
+        let node = document.getElementById(row+"-"+col)
+
+        if (node.classList.contains("path")) {
+          node.classList.remove("path");
+        }
+
+        if (node.classList.contains("visited")) {
+          node.classList.remove("visited");
+        }
+      }
+    }
   }
 }
 

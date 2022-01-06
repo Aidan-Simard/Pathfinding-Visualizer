@@ -1,37 +1,49 @@
 .node {
-  width: 20px;
+  width: 25px;
   min-width: 15px;
 
-  height: 20px;
+  height: 25px;
 
   padding: 1px;
-  box-shadow: inset 0 0 0 0.5px lightgrey;
-}
-
-.move-start:hover {
-  background-color: green;
-}
-
-.move-end:hover {
-  background-color: red;
+  box-shadow: inset 0 0 0 0.5px #85E0FF;
 }
 
 .start {
-  background-color: green;
+  color: #CDEDF6;
+  font-size: 25px;
 }
 
 .end {
-  background-color: red;
+  color: #CDEDF6;
+  font-size: 20px;
 }
 
 .wall {
-  background-color: black;
+  animation: wall 1s;
+  background-color: #EF7B45;
 }
 
 .visited {
-  background-color: blue;
+  animation: visited 1s;
+  background-color: #5EB1BF
 }
 
 .path {
-  background-color: pink;
+  animation: path 1s;
+  background-color: #CDEDF6;
+}
+
+@keyframes visited {
+  0% { background-color: #042A2B;}
+  100% { background-color: #5EB1BF; }
+}
+
+@keyframes path {
+  0% { background-color: #0094C6; }
+  100% { background-color: #CDEDF6; }
+}
+
+@keyframes wall {
+  0% { background-color: #042A2B;}
+  100% { background-color: #EF7B45; }
 }

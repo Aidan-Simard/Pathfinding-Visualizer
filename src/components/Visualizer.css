@@ -1,11 +1,11 @@
 .visualizer {
   width : auto;
   max-width: 1100px;
-  min-width: 850px;
+  min-width: 1300px;
 
   display: flex;
   flex-direction: column;
-  border: 1px solid lightgrey;
+  border: 1px solid #CDEDF6;
 }
 
 .row {

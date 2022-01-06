@@ -6,8 +6,8 @@ const Node = (props) => {
 
   const classes= [
       "node",
-      props.isStartNode ? "start" 
-      : props.isEndNode ? "end" 
+      props.isStartNode ? "start"
+      : props.isEndNode ? "end"
       : props.isWall ? "wall"
       : props.isVisited ? "visited"
       : props.isPath ? "path" : ""
@@ -26,7 +26,11 @@ const Node = (props) => {
       onMouseUp={() => props.onMouseUp()}
       onMouseEnter={() => props.onMouseEnter(props.row, props.col)}
       onClick={() => props.onClick(props.row, props.col)}
-    />
+    >
+      { props.isStartNode ? <i className="fas fa-angle-right va" style={{verticalAlign: "50%"}}></i> 
+      : props.isEndNode? <i className="fas fa-check va" style={{verticalAlign: "5%"}}></i>
+      : <div/>}
+    </div>
   )
 }
 
