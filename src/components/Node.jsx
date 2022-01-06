@@ -1,23 +1,32 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useRef }from 'react'
 
 import './Node.css'
 
 const Node = (props) => {
 
+  const nodeRef = useRef();
+
   const classes= [
       "node",
-      props.row + "-" + props.col,
       props.isStartNode ? "start" 
       : props.isEndNode ? "end" 
-      : props.isWall ? "wall" : "",
+      : props.isWall ? "wall"
+      : props.isVisited ? "visited"
+      : props.isPath ? "path" : ""
     ].join(" ").trim();
 
+  function dragStart(e) {
+    e.preventDefault()
+  }
+
   return (
-    <div 
+    <div
+      onDragStart={(e) => dragStart(e)}
+      id={props.row + "-" + props.col}
       className={classes} 
-      onMouseDown={() => props.onMouseDown()} 
-      onMouseOver={() => props.onMouseOver(props.row, props.col)} 
+      onMouseDown={() => props.onMouseDown(props.row, props.col)}
       onMouseUp={() => props.onMouseUp()}
+      onMouseEnter={() => props.onMouseEnter(props.row, props.col)}
       onClick={() => props.onClick(props.row, props.col)}
     />
   )

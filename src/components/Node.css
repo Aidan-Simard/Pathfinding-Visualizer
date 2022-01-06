@@ -3,7 +3,9 @@
   min-width: 15px;
 
   height: 20px;
-  border: 1px solid lightgrey;
+
+  padding: 1px;
+  box-shadow: inset 0 0 0 0.5px lightgrey;
 }
 
 .move-start:hover {
@@ -13,7 +15,6 @@
 .move-end:hover {
   background-color: red;
 }
-
 
 .start {
   background-color: green;
@@ -25,4 +26,12 @@
 
 .wall {
   background-color: black;
+}
+
+.visited {
+  background-color: blue;
+}
+
+.path {
+  background-color: pink;
 }
