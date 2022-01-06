@@ -6,8 +6,12 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "buckets-js": "^1.98.2",
+    "datastructures-js": "^10.1.1",
+    "google-closure-library": "^20211201.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hover-observer": "^2.1.1",
     "react-scripts": "5.0.0",
     "web-vitals": "^2.1.2"
   },
@@ -34,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "google-closure-deps": "^20211201.0.0"
   }
 }
