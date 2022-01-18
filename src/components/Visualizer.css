@@ -12,3 +12,20 @@
   display: flex;
   flex-direction: row;
 }
+
+.btn {
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  background-color: #85E0FF;
+  border: 2px solid #85E0FF;
+  cursor: pointer;
+  width: max-content;
+  transition: 0.25s ease;
+}
+
+.btn:hover {
+  box-shadow: 0 6px 18px 0 rgba(#000, 0.1);
+  transform: translateY(-6px);
+}

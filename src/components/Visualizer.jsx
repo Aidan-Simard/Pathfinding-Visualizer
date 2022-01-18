@@ -2,9 +2,9 @@ import React, { useState, useEffect} from 'react'
 
 import Node from './Node'
 import dijkstras from '../algorithms/dijkstras';
+import bfs from '../algorithms/bfs'
 
 import './Visualizer.css'
-import { clear } from '@testing-library/user-event/dist/clear';
 
 const NUM_ROWS = 25;
 const NUM_COLS = 50;
@@ -115,6 +115,14 @@ const Visualizer = (props) => {
   }
 
   /**
+   * Animate BFS.
+   */
+  function animateBFS() {
+    const [journey, path] = bfs(grid, grid[startCoords[0]][startCoords[1]]);
+    animatePath(journey, path)
+  }
+
+  /**
    * Animate a journey (visited nodes) and path.
    * @param {Object[]} journey 
    * @param {Object[]} path 
@@ -163,9 +171,10 @@ const Visualizer = (props) => {
 
   return (
     <div>
-      <button onClick={() => reset()}>Reset</button>
-      <button onClick={() => randomWeight()}>Random Weight</button>
-      <button onClick={() => animateDijkstras()}>Visualize!</button>
+      <button className="btn" onClick={() => reset()}>Reset</button>
+      <button className="btn" onClick={() => randomWeight()}>Random Weight</button>
+      <button className="btn" onClick={() => animateDijkstras()}>Dijkstras</button>
+      {/* <button className="btn" onClick={() => animateBFS()}>BFS</button> */}
       <div className="visualizer">
         {grid.map((row, rowIndex) => {
           return (
