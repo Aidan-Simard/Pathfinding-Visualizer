@@ -221,6 +221,13 @@ const Visualizer = (props) => {
 
   function handleMouseUp() {
     if (startVis) { return; }
+
+    // clean start/end artifacts
+    let g = [...[...grid]];
+    clearAllOfType(g, "isStartNode");
+    clearAllOfType(g, "isEndNode");
+    updateGrid();
+
     setMoveStart(false);
     setMoveEnd(false);
     setMouseDown(false);
@@ -259,11 +266,7 @@ const Visualizer = (props) => {
     if (startVis) { return; }
 
     let g = [...[...grid]];
-    for (let i = 0; i < grid.length; i++) {
-      for (let j = 0; j < grid[i].length; j++) {
-        g[i][j]["isStartNode"] = false;
-      }
-    }
+    g = clearAllOfType(g, "isStartNode");
     g[row][col]["isStartNode"] = true;
     setStartCoords([row, col])
     setGrid(g);
@@ -273,14 +276,21 @@ const Visualizer = (props) => {
     if (startVis) { return; }
 
     let g = [...[...grid]];
-    for (let i = 0; i < grid.length; i++) {
-      for (let j = 0; j < grid[i].length; j++) {
-        g[i][j]["isEndNode"] = false;
-      }
-    }
+
+    g = clearAllOfType(g, "isEndNode");
     g[row][col]["isEndNode"] = true;
     setEndCoords([row, col])
     setGrid(g);
+  }
+
+  function clearAllOfType(g, s) {
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
+        g[i][j][s] = false;
+      }
+    }
+
+    return g;
   }
 
   function clearGrid() {
