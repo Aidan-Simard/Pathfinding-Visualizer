@@ -11,6 +11,8 @@ const NUM_COLS = 50;
 
 const Visualizer = (props) => {
 
+  const [moveStart, setMoveStart] = useState(false);
+  const [moveEnd, setMoveEnd] = useState(false);
   const [startCoords, setStartCoords] = useState([Math.floor(NUM_ROWS/2), 9]);
   const [endCoords, setEndCoords] = useState([Math.floor(NUM_ROWS/2), 40]);
   const [grid, setGrid] = useState(initGrid());
@@ -95,10 +97,9 @@ const Visualizer = (props) => {
 
 
   /**
-   * Update grid with new start and end states.
+   * Update grid.
    */
   function updateGrid() {
-    // hide start node while not placed
     let g = [...[...grid]];
     g[startCoords[0]][startCoords[1]]["isStartNode"] = true;
     g[endCoords[0]][endCoords[1]]["isEndNode"] = true;
@@ -174,7 +175,7 @@ const Visualizer = (props) => {
       <button className="btn" onClick={() => reset()}>Reset</button>
       <button className="btn" onClick={() => randomWeight()}>Random Weight</button>
       <button className="btn" onClick={() => animateDijkstras()}>Dijkstras</button>
-      {/* <button className="btn" onClick={() => animateBFS()}>BFS</button> */}
+      <button className="btn" onClick={() => animateBFS()}>BFS</button>
       <div className="visualizer">
         {grid.map((row, rowIndex) => {
           return (
@@ -207,26 +208,31 @@ const Visualizer = (props) => {
 
   function handleMouseDown(row, col) {
     if (startVis) { return; }
-
-    toggleWall(row, col);
     setMouseDown(true);
+
+    if (grid[row][col].isStartNode) {
+      setMoveStart(true);
+    } else if (grid[row][col].isEndNode) {
+      setMoveEnd(true);
+    } else {
+      toggleWall(row, col);
+    }
   }
 
   function handleMouseUp() {
     if (startVis) { return; }
-
+    setMoveStart(false);
+    setMoveEnd(false);
     setMouseDown(false);
   }
 
   function handleMouseEnter(row, col) {
     if (startVis) { return; }
-    
-    let node = grid[row][col];
 
     if (mouseDown) {
-      if (node["isStartNode"]) {
+      if (moveStart) {
         moveStartNode(row, col);
-      } else if (node["isEndNode"]) {
+      } else if (moveEnd) {
         moveEndNode(row, col)
       } else {
         toggleWall(row, col);
@@ -253,7 +259,11 @@ const Visualizer = (props) => {
     if (startVis) { return; }
 
     let g = [...[...grid]];
-    g[startCoords[0]][startCoords[1]]["isStartNode"] = false;
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
+        g[i][j]["isStartNode"] = false;
+      }
+    }
     g[row][col]["isStartNode"] = true;
     setStartCoords([row, col])
     setGrid(g);
@@ -263,7 +273,11 @@ const Visualizer = (props) => {
     if (startVis) { return; }
 
     let g = [...[...grid]];
-    g[endCoords[0]][endCoords[1]]["isEndNode"] = false;
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
+        g[i][j]["isEndNode"] = false;
+      }
+    }
     g[row][col]["isEndNode"] = true;
     setEndCoords([row, col])
     setGrid(g);

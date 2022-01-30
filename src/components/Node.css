@@ -34,7 +34,7 @@
 }
 
 @keyframes visited {
-  0% { background-color: #CDEDF6;}
+  0% { background-color: #f4cccc; }
   100% { background-color: #5EB1BF; }
 }
 

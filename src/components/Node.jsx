@@ -1,8 +1,11 @@
-import React, { useEffect, useRef }from 'react'
+import Draggable from 'react-draggable';
+import { useRef } from 'react';
 
 import './Node.css'
 
 const Node = (props) => {
+
+  const nodeRef = useRef(null);
 
   const classes= [
       "node",
@@ -17,8 +20,9 @@ const Node = (props) => {
     e.preventDefault()
   }
 
-  return (
+  let node =     
     <div
+      ref={nodeRef}
       onDragStart={(e) => dragStart(e)}
       id={props.row + "-" + props.col}
       className={classes} 
@@ -31,8 +35,12 @@ const Node = (props) => {
       : props.isEndNode? <i className="fas fa-check va" style={{verticalAlign: "5%"}}></i>
       : props.weight > 1 ? <i className="fas fa-weight-hanging" style={{color: "#084b4c"}}></i>
       : <div/>}
-    </div>
+    </div>;
+
+  return (
+    node
   )
+  
 }
 
 export default Node;

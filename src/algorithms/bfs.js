@@ -35,19 +35,20 @@ function bfs(graph, start) {
 
       let neighbor = neighbors[i];
 
-      if (neighbor["isEndNode"]) {
-
+      // this prevents a loop of 'prev' nodes from occuring
+      if (prev[neighbor["toString"]] === null) {
         prev[neighbor["toString"]] = node;
-
-        while (prev[neighbor["toString"]] !== start["toString"]) {
-          path.push(prev[neighbor["toString"]]);
-          neighbor = prev[neighbor["toString"]]
-  
-          return [journey, path];
-        }
       }
 
-      prev[neighbor["toString"]] = node;
+      if (neighbor["isEndNode"]) {
+
+        while (prev[neighbor["toString"]].toString !== start["toString"]) {
+          path.push(prev[neighbor["toString"]]);
+          neighbor = prev[neighbor["toString"]];
+        }
+
+        return [journey, path];
+      }
 
       if (!added.has(neighbor["toString"])) {
         journey.push(neighbor);

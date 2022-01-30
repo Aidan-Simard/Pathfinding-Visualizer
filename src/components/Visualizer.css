@@ -9,6 +9,7 @@
 }
 
 .row {
+  height: 25px;
   display: flex;
   flex-direction: row;
 }
@@ -17,7 +18,7 @@
   padding: 15px 30px;
   font-size: 20px;
   font-weight: 900;
-  color: #fff;
+  color: #FFFFFF;
   background-color: #85E0FF;
   border: 2px solid #85E0FF;
   cursor: pointer;
