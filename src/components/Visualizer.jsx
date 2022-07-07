@@ -1,10 +1,11 @@
-import React, { useState, useEffect} from 'react'
+import { useEffect, useState } from 'react';
 
-import Node from './Node'
+import bfs from '../algorithms/bfs';
+import dfs from '../algorithms/dfs';
 import dijkstras from '../algorithms/dijkstras';
-import bfs from '../algorithms/bfs'
+import Node from './Node';
 
-import './Visualizer.css'
+import './Visualizer.css';
 
 const NUM_ROWS = 25;
 const NUM_COLS = 50;
@@ -122,6 +123,14 @@ const Visualizer = (props) => {
     const [journey, path] = bfs(grid, grid[startCoords[0]][startCoords[1]]);
     animatePath(journey, path)
   }
+  
+  /**
+   * Animate DFS.
+   */
+   function animateDFS() {
+    const [journey, path] = dfs(grid, grid[startCoords[0]][startCoords[1]]);
+    animatePath(journey, path)
+  }
 
   /**
    * Animate a journey (visited nodes) and path.
@@ -174,8 +183,9 @@ const Visualizer = (props) => {
     <div>
       <button className="btn" onClick={() => reset()}>Reset</button>
       <button className="btn" onClick={() => randomWeight()}>Random Weight</button>
-      <button className="btn" onClick={() => animateDijkstras()}>Dijkstras</button>
+      <button className="btn" onClick={() => animateDijkstras()}>Dijkstra's</button>
       <button className="btn" onClick={() => animateBFS()}>BFS</button>
+      <button className="btn" onClick={() => animateDFS()}>DFS</button>
       <div className="visualizer">
         {grid.map((row, rowIndex) => {
           return (
@@ -318,7 +328,7 @@ const Visualizer = (props) => {
 
     for (let row = 0; row < grid.length; row++) {
       for (let col = 0; col < grid[row].length; col++) {
-        if (Math.random() < 0.3 && !g[row][col]["isWall"]) {
+        if (Math.random() < 0.2 && !g[row][col]["isWall"]) {
           g[row][col]["weight"] = 4;
         }
       }

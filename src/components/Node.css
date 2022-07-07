@@ -20,7 +20,7 @@
 
 .wall {
   animation: wall 0.5s;
-  background-color: #EF7B45;
+  background-color: black;
 }
 
 .visited {
@@ -45,5 +45,5 @@
 
 @keyframes wall {
   0% { background-color: #FFFFFF;}
-  100% { background-color: #EF7B45; }
+  100% { background-color: black; }
 }
