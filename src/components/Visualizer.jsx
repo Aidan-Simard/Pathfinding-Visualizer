@@ -163,8 +163,7 @@ const Visualizer = (props) => {
    */
   function createRandomWallMaze() {
     if (startVis) return;
-    clearGrid();
-    updateGrid(randomMaze(grid, "isWall"));
+    updateGrid(randomMaze(grid));
   }
   
   /**

@@ -11,6 +11,7 @@ function randomMaze(graph) {
           queue.push(node);
         }
       } else {
+        graph[node["row"]][node["col"]]["isWall"] = false;
         sets[node["toString"]] = new Set();
         sets[node["toString"]].add(node["toString"]);
       }
