@@ -3,19 +3,20 @@ import { useEffect, useState } from 'react';
 import bfs from '../algorithms/bfs';
 import dfs from '../algorithms/dfs';
 import dijkstras from '../algorithms/dijkstras';
+import randomMaze from '../algorithms/maze';
 import Node from './Node';
 
 import './Visualizer.css';
 
 const NUM_ROWS = 25;
-const NUM_COLS = 50;
+const NUM_COLS = 51;
 
 const Visualizer = (props) => {
 
   const [moveStart, setMoveStart] = useState(false);
   const [moveEnd, setMoveEnd] = useState(false);
-  const [startCoords, setStartCoords] = useState([Math.floor(NUM_ROWS/2), 9]);
-  const [endCoords, setEndCoords] = useState([Math.floor(NUM_ROWS/2), 40]);
+  const [startCoords, setStartCoords] = useState([Math.floor(NUM_ROWS/2)-1, 9]);
+  const [endCoords, setEndCoords] = useState([Math.floor(NUM_ROWS/2)-1, 41]);
   const [grid, setGrid] = useState(initGrid());
   const [mouseDown, setMouseDown] = useState(false);
   const [startVis, setStartVis] = useState(false);
@@ -92,6 +93,31 @@ const Visualizer = (props) => {
         n = n.filter((node) => !node["isWall"] && !node["isStartNode"]);
     
         return n
+      },
+      _getNodeNeighbors: // include walls here
+        (graph, node) => {
+        let row = node[0];
+        let col = node[1];
+
+        let n = [undefined, undefined, undefined, undefined];
+
+        if (row+1 < NUM_ROWS) {
+          n[0] = graph[row+1][col];
+        }
+
+        if (col+1 < NUM_COLS) {
+          n[1] = graph[row][col+1];
+        }
+        
+        if (row-1 >= 0) {
+          n[2] = graph[row-1][col];
+        }
+        
+        if (col-1 >= 0) {
+          n[3] = graph[row][col-1];
+        }
+            
+        return n
       }
     };
   }
@@ -132,6 +158,15 @@ const Visualizer = (props) => {
     animatePath(journey, path)
   }
 
+  /**
+   * Create a random wall maze.
+   */
+  function createRandomWallMaze() {
+    if (startVis) return;
+    clearGrid();
+    updateGrid(randomMaze(grid, "isWall"));
+  }
+  
   /**
    * Animate a journey (visited nodes) and path.
    * @param {Object[]} journey 
@@ -182,6 +217,7 @@ const Visualizer = (props) => {
   return (
     <div>
       <button className="btn" onClick={() => reset()}>Reset</button>
+      <button className="btn" onClick={() => createRandomWallMaze()}>Random Maze</button>
       <button className="btn" onClick={() => randomWeight()}>Random Weight</button>
       <button className="btn" onClick={() => animateDijkstras()}>Dijkstra's</button>
       <button className="btn" onClick={() => animateBFS()}>BFS</button>

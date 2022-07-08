@@ -20,7 +20,7 @@ function dfs(graph, start) {
     }
   }
 
-  return [journey, journey.slice().reverse()];
+  return [journey, []];
 }
 
 export default dfs;
